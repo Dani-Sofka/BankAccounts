@@ -1,7 +1,8 @@
-package bank.accounts.services;
+package bank.accounts.services.impl;
 
 import bank.accounts.entities.Customer;
 import bank.accounts.repository.CustomerRepository;
+import bank.accounts.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
