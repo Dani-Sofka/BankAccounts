@@ -5,6 +5,7 @@ import bank.accounts.entities.Customer;
 import bank.accounts.repository.BankAccountRepository;
 import bank.accounts.repository.CustomerRepository;
 import bank.accounts.services.BankAccountService;
+import bank.accounts.services.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     private final CustomerRepository customerRepository;
     private final BankAccountRepository bankAccountRepository;
+
+    private final TransactionService transactionService;
 
     @Transactional
     @Override
@@ -51,9 +54,13 @@ public class BankAccountServiceImpl implements BankAccountService {
        if (bankAccountExist.isPresent()){
            BankAccount account = bankAccountExist.get();
            BankAccount updateBankAccount = BankAccount.builder()
+                   .accountId(id)
+                   .accountType(account.getAccountType())
                    .balance(account.getBalance() + amount)
+                   .customer(account.getCustomer())
                    .build();
            BankAccount savedAccount = bankAccountRepository.save(updateBankAccount);
+           transactionService.createDepositTransaction(account.getAccountId(), amount);
            return ResponseEntity.ok(savedAccount);
        } else {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -71,10 +78,13 @@ public class BankAccountServiceImpl implements BankAccountService {
 
             if (account.getBalance() >= amount){
                 BankAccount updateBankAccount = BankAccount.builder()
+                        .accountId(id)
+                        .accountType(account.getAccountType())
                         .balance(account.getBalance() - amount)
+                        .customer(account.getCustomer())
                         .build();
                 BankAccount saveBankAccount = bankAccountRepository.save(updateBankAccount);
-
+                transactionService.createWithdrawTransaction(account.getAccountId(), amount);
                 return ResponseEntity.ok(saveBankAccount);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

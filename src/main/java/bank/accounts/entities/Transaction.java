@@ -2,13 +2,14 @@ package bank.accounts.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 @Entity
 @Table(name = "Transactions")
 public class Transaction {
