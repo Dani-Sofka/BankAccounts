@@ -41,4 +41,46 @@ public class BankAccountServiceImpl implements BankAccountService {
     public Optional<BankAccount> findAccountById(long id) {
         return bankAccountRepository.findById(id);
     }
+
+    @Override
+    public ResponseEntity<BankAccount> deposit(long id, double amount) {
+       if (amount <= 0){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+       }
+       Optional<BankAccount> bankAccountExist = bankAccountRepository.findById(id);
+       if (bankAccountExist.isPresent()){
+           BankAccount account = bankAccountExist.get();
+           BankAccount updateBankAccount = BankAccount.builder()
+                   .balance(account.getBalance() + amount)
+                   .build();
+           BankAccount savedAccount = bankAccountRepository.save(updateBankAccount);
+           return ResponseEntity.ok(savedAccount);
+       } else {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+       }
+    }
+
+    @Override
+    public ResponseEntity<BankAccount> withdraw(long id, double amount) {
+        if (amount <= 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Optional<BankAccount> bankAccountExist = bankAccountRepository.findById(id);
+        if (bankAccountExist.isPresent()){
+            BankAccount account = bankAccountExist.get();
+
+            if (account.getBalance() >= amount){
+                BankAccount updateBankAccount = BankAccount.builder()
+                        .balance(account.getBalance() - amount)
+                        .build();
+                BankAccount saveBankAccount = bankAccountRepository.save(updateBankAccount);
+
+                return ResponseEntity.ok(saveBankAccount);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }
