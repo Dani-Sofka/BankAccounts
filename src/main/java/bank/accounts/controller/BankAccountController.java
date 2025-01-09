@@ -24,4 +24,14 @@ public class BankAccountController {
     public Optional<BankAccount> getAccountById(@PathVariable long id){
         return bankAccountService.findAccountById(id);
     }
+
+    @PostMapping("/account/deposit/{id}")
+    public ResponseEntity<BankAccount> deposit(@PathVariable long id, @RequestBody double amount){
+        return bankAccountService.deposit(id, amount);
+    }
+
+    @PostMapping("/account/withdraw/{id}")
+    public ResponseEntity<BankAccount> withdraw(@PathVariable long id, @RequestBody double amount){
+        return bankAccountService.withdraw(id, amount);
+    }
 }
