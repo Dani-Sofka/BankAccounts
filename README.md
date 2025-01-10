@@ -39,6 +39,10 @@ El sistema está basado en una arquitectura de **capas** que incluye las siguien
   - `email` (tipo String, no nulo)
   - `last_name` (tipo String)
 
+### Modelo Entidad Relación
+
+![WhatsApp Image 2025-01-04 at 12 58 24 AM](https://github.com/user-attachments/assets/e5284d01-c45d-4be4-be49-60d8eaf5fc27)
+
 ### Pruebas
 
 #### Pruebas Unitarias
