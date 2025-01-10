@@ -92,6 +92,12 @@ Las pruebas de integración incluyen:
 - **Mockito**: Para la ejecución de pruebas unitarias.
 - **Gradle**: Para la gestión de dependencias y ejecución de pruebas.
 
+### Enpoints Usados
+Aca tenemos los servicios usados para la creación de los servicios solicitados en la aplicación.
+
+![image](https://github.com/user-attachments/assets/528d37cd-be0b-4c00-8b79-00db7690ffa1)
+
+
 ## Instalación
 
 Para ejecutar este proyecto en tu máquina local, sigue estos pasos:
