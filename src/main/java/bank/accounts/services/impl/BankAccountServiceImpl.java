@@ -60,6 +60,8 @@ public class BankAccountServiceImpl implements BankAccountService {
                    .customer(account.getCustomer())
                    .build();
            BankAccount savedAccount = bankAccountRepository.save(updateBankAccount);
+
+           //TODO:Acá se debe llamar a la api externa de transaction para guardar la transacción.
            transactionService.createDepositTransaction(account.getAccountId(), amount);
            return ResponseEntity.ok(savedAccount);
        } else {
